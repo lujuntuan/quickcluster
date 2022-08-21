@@ -73,7 +73,7 @@ bootcli start
 bootcli stop
 ```
 
-Warning: hmi下的ui切图不可商业盗用
+Warning: hmi下的ejanus、coc切图不可商业盗用
 
 ## 版权所有:
 
