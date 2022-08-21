@@ -1,0 +1,22 @@
+{
+  "exePath":"cluster-server-ivs",
+  "workDir":"",
+  "args":[
+  "-test"
+  ],
+  "envList":[
+  ],
+  "preCommands":[
+  ],
+  "destroy":false,
+  "watch":true,
+  "order": true,
+  "lock":true,
+  "daemon":true,
+  "logVisible":true,
+  "logSave":true,
+  "sleepTime":0,
+  "heartbeatTimes":[
+    {"main":5000}
+  ]
+}

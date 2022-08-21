@@ -1,0 +1,47 @@
+﻿//*********************************************************************************
+//  *Copyright(C): Juntuan.Lu, 2020-2030, All rights reserved.
+//  *Author:  Juntuan.Lu
+//  *Version: 1.0
+//  *Date:  2021/07/22
+//  *Email: 931852884@qq.com
+//  *Description:
+//  *Others:
+//  *Function List:
+//  *History:
+//**********************************************************************************
+
+#include <clusterivs.def>
+
+POD Tire(
+    int temp,
+    float pressure);
+
+class ClusterIvs {
+    ENUM Gear { GEAR_P = 0, GEAR_R = 1, GEAR_N = 2, GEAR_D = 3 };
+    ENUM Drive { DRIVE_COMFORT = 0, DRIVE_SUPPORT = 1, DRIVE_ECO = 2, DRIVE_OFFROAD = 3, DRIVE_SNOW = 4, DRIVE_SUPPORT_PLUS = 5, DRIVET_CUSTOM = 6, DRIVET_OTHER = 7 };
+    ENUM BatteryState { BATTERY_NORMAL = 0, BATTERY_FILL = 1, BATTERY_ERROR = 2 };
+
+    PROP(bool connected = false READONLY);
+    PROP(float speed = .0f READONLY);
+    PROP(float engine = .0f READONLY);
+    PROP(float battery = .0f READONLY);
+    PROP(float fuel = .0f READONLY);
+    PROP(float water = .0f READONLY);
+    PROP(float temp = .0f READONLY);
+    PROP(float total = .0f READONLY);
+    PROP(float trip = .0f READONLY);
+    PROP(float avgSpeed = .0f READONLY);
+    PROP(float avgFuel = .0f READONLY);
+    PROP(float maxFuel = .0f READONLY);
+    PROP(Gear gear = GEAR_P READONLY);
+    PROP(Drive drive = DRIVE_COMFORT READONLY);
+    PROP(BatteryState batteryState = BATTERY_NORMAL READONLY);
+    PROP(Tire tireFrontLeft = TIRE_DEFAULT READONLY);
+    PROP(Tire tireFrontRight = TIRE_DEFAULT READONLY);
+    PROP(Tire tireBehindLeft = TIRE_DEFAULT READONLY);
+    PROP(Tire tireBehindRight = TIRE_DEFAULT READONLY);
+    PROP(QDateTime date = DATETIME_DEFAULT READONLY);
+    PROP(QVariantMap telltalesMap READONLY);
+
+    SIGNAL(commandChanged(const QString& command))
+};

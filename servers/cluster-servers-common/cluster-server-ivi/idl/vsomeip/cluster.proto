@@ -1,0 +1,163 @@
+syntax = "proto3";
+package CLUSTER;  //包名
+
+enum MsgID
+{
+    TYPE_UNKNOWN = 0;                     //未知消息
+
+    TYPE_RADIO = 1;                       //对应【收音机消息】Radio
+    TYPE_MUSIC = 2;                       //对应【音乐消息】Music
+    TYPE_PHONE = 3;                       //对应【电话消息】Phone
+
+    TYPE_NAVI = 5;                        //对应【导航消息】Navi
+    TYPE_SKIN = 6;                        //对应【皮肤消息】Skin
+    TYPE_SPLASH = 7;                      //对应【开机动画消息】Splash
+
+    TYPE_DMS = 21;                        //对应【DMS消息】Dms
+    TYPE_V2X = 22;                        //对应【V2X消息】V2x
+
+    TYPE_MEDIA_PAGE = 50;                 //对应【多媒体场景切换消息】MediaPage（弃用）
+    TYPE_MEDIA_RESET = 51;                //重置多媒体状态，恢复默认（message为空）
+    TYPE_VERSION = 101;            //对应【版本号消息】Version
+}
+
+//【图片消息】
+//source: IMG_HEADER+图片二进制数据的BASE64
+//cache: 是否使用上一包消息的图片缓存
+message ImageData
+{
+    string source = 1;
+    bool cache = 2;
+}
+
+//【收音机消息】
+//status: 状态
+//frequency: 频道
+message Radio
+{
+    enum Status
+    {
+        CLOSED = 0;
+        FM = 1;
+        AM = 2;
+    }
+    Status status = 1;
+    string frequency = 2;
+}
+//【音乐消息】
+//status: 状态
+//name: 音乐名称
+//author: 作者
+//author: 专辑
+//time: 当前播放时间（秒）
+//total: 总时间（秒）
+//image: 图片
+message Music
+{
+    enum Status
+    {
+        STOPED = 0;
+        PLAYING = 1;
+        PAUSING = 2;
+    }
+    Status status = 1;
+    string name = 2;
+    string author = 3;
+    string album = 4;
+    uint32 time = 5;
+    uint32 total = 6;
+    ImageData image = 7;
+}
+
+//【电话消息】
+//status: 状态
+//name: 联系人名称
+//nummber: 电话
+//time: 当前通话时间（秒）
+//image: 图片
+message Phone
+{
+    enum Status
+    {
+        HANGUP = 0;
+        OUTGOING = 1;
+        INCOMMING = 2;
+        TALKING = 3;
+    }
+    Status status = 1;
+    string name = 2;
+    string nummber = 3; //???
+    uint32 time = 4;
+    ImageData image = 5;
+}
+
+//【多媒体场景切换消息】
+//status: 状态
+message MediaPage
+{
+    enum Status
+    {
+        NORMAL = 0;
+        RADIO = 1;
+        MUSIC = 2;
+        PHONE = 3;
+        NAVI = 4;
+    }
+    Status status = 1;
+}
+
+//【导航消息】
+//visible: 显示或关闭
+message Navi
+{
+    bool visible = 1;
+}
+
+//【皮肤消息】
+//name: 皮肤名称
+message Skin
+{
+    string name = 1;
+}
+
+//【开机动画消息】
+//id: 开机动画的ID
+//visible: 开机动画显示或关闭
+message Splash
+{
+    uint32 id = 1;
+    bool visible = 2;
+}
+
+//【DMS消息】
+//通过broadcast方法调用
+message Dms
+{
+    enum Status
+    {
+        INVALID = 0; //默认无效状态
+        ATTENTION = 1; //注意力检测提示
+        TIRED = 2; //疲劳驾驶提示
+    }
+    Status status = 1; //Dms状态
+    uint32 level = 2; //状态等级(目前等级有1、2)
+}
+
+//【V2X消息】
+//通过broadcast方法调用
+message V2x
+{
+    string data = 1; //V2x二进制源数据
+}
+
+//【版本号消息】
+//通过reply方法调用，通过invoke查询时可以不构造该message
+message Version
+{
+    string text = 1; //完整版本号字符串
+    uint32 major_num = 2; //主版本号
+    uint32 minor_num = 3; //次版本号
+    uint32 revision_num = 4; //修订版本号
+    bool beta = 5; //测试版本或发布版本
+    string commit_id = 6; //git提交的版本号
+}

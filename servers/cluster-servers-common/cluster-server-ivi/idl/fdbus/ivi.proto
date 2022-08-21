@@ -1,0 +1,147 @@
+//*****基于FDbus的车载仪表互联通讯协议
+
+//通讯地址："svc://ivi_fdbus"
+
+syntax = "proto3"; //协议
+package IVI;  //包名
+
+//消息ID
+//根据消息ID解析对应的Message
+//值为1-99的ID通过broadcast方法调用（接收方须要先行调用subscribe方法订阅）
+//值为100-199的ID通过invoke或reply方法调用
+//值为200-255的ID通过send方法调用
+enum MsgID
+{
+    TYPE_UNKNOWN = 0;                     //未知消息
+    
+    TYPE_RADIO = 1;                       //对应【收音机消息】Radio
+    TYPE_MUSIC = 2;                       //对应【音乐消息】Music
+    TYPE_PHONE = 3;                       //对应【电话消息】Phone
+    
+    TYPE_NAVI = 5;                        //对应【导航消息】Navi
+    TYPE_SKIN = 6;                        //对应【皮肤消息】Skin
+    TYPE_SPLASH = 7;                      //对应【开机动画消息】Splash
+    
+    TYPE_DMS = 21;                        //对应【DMS消息】Dms
+    TYPE_V2X = 22;                        //对应【V2X消息】V2x
+    
+    TYPE_MEDIA_PAGE = 50;                 //对应【多媒体场景切换消息】MediaPage（弃用）
+    TYPE_MEDIA_RESET = 51;                //重置多媒体状态，恢复默认（message为空）
+}
+
+//【图片消息】
+//无直接调用
+//IMG_HEADER: "data:image/png;base64,"
+message ImageData
+{
+    string source = 1; //IMG_HEADER+图片二进制数据的base64字符串
+    bool cache = 2; //是否使用上一包消息的图片缓存
+}
+
+//【收音机消息】
+//通过broadcast方法调用
+message Radio
+{
+    enum Status
+    {
+        CLOSED = 0; //收音机关闭状态
+        FM = 1; //收音机FM状态
+        AM = 2; //收音机AM状态
+    }
+    Status status = 1; //收音机状态
+    string frequency = 2; //频道
+}
+
+//【音乐消息】
+//通过broadcast方法调用
+message Music
+{
+    enum Status
+    {
+        STOPED = 0; //音乐停止状态
+        PLAYING = 1; //音乐播放状态
+        PAUSING = 2; //音乐暂停状态
+    }
+    Status status = 1; //音乐状态
+    string name = 2; //音乐名称
+    string author = 3; //作者（可为空）
+    string album = 4; //专辑（可为空）
+    uint32 time = 5; //当前播放时间（秒）
+    uint32 total = 6; //总时间（秒）
+    ImageData image = 7; //图片
+}
+
+//【电话消息】
+//通过broadcast方法调用
+message Phone
+{
+    enum Status
+    {
+        HANGUP = 0; //电话挂断状态
+        OUTGOING = 1; //电话呼出状态
+        INCOMMING = 2; //电话呼入状态
+        TALKING = 3; //电话通话中状态
+    }
+    Status status = 1; //电话状态
+    string name = 2; //联系人名称
+    string nummber = 3; //电话（可为空）
+    uint32 time = 4; //当前通话时间（秒）
+    ImageData image = 5; //图片
+}
+
+//【多媒体场景切换消息】
+//通过broadcast方法调用
+message MediaPage
+{
+    enum Status
+    {
+        NORMAL = 0; //场景默认状态，无声音
+        RADIO = 1; //场景收音机状态
+        MUSIC = 2; //场景音乐状态
+        PHONE = 3; //场景电话状态
+    }
+    Status status = 1; //多媒体状态
+}
+
+//【导航消息】
+//通过broadcast方法调用（安卓端发一个关闭开机动画的报文即可）
+message Navi
+{
+    bool visible = 1; //显示或关闭
+}
+
+//【皮肤消息】
+//通过broadcast方法调用
+message Skin
+{
+    string name = 1; //皮肤名称
+}
+
+//【开机动画消息】
+//通过broadcast方法调用
+message Splash
+{
+    uint32 id = 1; //屏幕序号
+    bool visible = 2; //开机动画显示或关闭
+}
+
+//【DMS消息】
+//通过broadcast方法调用
+message Dms
+{
+    enum Status
+    {
+        INVALID = 0; //默认无效状态
+        ATTENTION = 1; //注意力检测提示
+        TIRED = 2; //疲劳驾驶提示
+    }
+    Status status = 1; //Dms状态
+    uint32 level = 2; //状态等级（目前等级有1、2）
+}
+
+//【V2X消息】
+//通过broadcast方法调用
+message V2x
+{
+    string data = 1; //V2x二进制源数据
+}

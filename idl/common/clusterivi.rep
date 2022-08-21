@@ -1,0 +1,73 @@
+//*********************************************************************************
+//  *Copyright(C): Juntuan.Lu, 2020-2030, All rights reserved.
+//  *Author:  Juntuan.Lu
+//  *Version: 1.0
+//  *Date:  2021/07/22
+//  *Email: 931852884@qq.com
+//  *Description:
+//  *Others:
+//  *Function List:
+//  *History:
+//**********************************************************************************
+
+#include <clusterivi.def>
+
+POD ImageData(
+    QString source,
+    bool cache);
+
+POD Radio(
+    int status,
+    QString frequency);
+
+POD Music(
+    int status,
+    QString name,
+    QString author,
+    QString album,
+    int time,
+    int total,
+    ImageData image);
+
+POD Phone(
+    int status,
+    QString name,
+    QString nummber,
+    int time,
+    ImageData image);
+
+POD Navi(
+    bool visible);
+
+POD Splash(
+    int id,
+    bool visible);
+
+POD Dms(
+    int status,
+    int level);
+
+POD V2x(
+    QByteArray data);
+
+class ClusterIvi {
+    ENUM MediaPage { NORMAL = 0, RADIO = 1, MUSIC = 2, PHONE = 3 };
+    ENUM RadioStatus { CLOSED = 0, FM = 1, AM = 2 };
+    ENUM MusicStatus { STOPED = 0, PLAYING = 1, PAUSING = 2 };
+    ENUM PhoneStatus { HANGUP = 0, OUTGOING = 1, INCOMMING = 2, TALKING = 3 };
+    ENUM DmsStatus { INVALID = 0, ATTENTION = 1, TIRED = 2 };
+
+    PROP(QString skin = SKIN_DEFAULT READONLY);
+    PROP(bool connected = false READONLY);
+    PROP(MediaPage mediaPage = NORMAL READONLY);
+    PROP(Radio radio = RADIO_DEFAULT READONLY);
+    PROP(Music music = MUSIC_DEFAULT READONLY);
+    PROP(Phone phone = PHONE_DEFAULT READONLY);
+    PROP(Navi navi = NAVI_DEFAULT READONLY);
+    PROP(Splash splash = SPLASH_DEFAULT READONLY);
+
+    PROP(Dms dms = DMS_DEFAULT READONLY);
+    PROP(V2x v2x = V2X_DEFAULT READONLY);
+
+    SIGNAL(commandChanged(const QString& command))
+};

@@ -1,0 +1,27 @@
+/*********************************************************************************
+ *Copyright(C): Juntuan.Lu, 2020-2030, All rights reserved.
+ *Author:  Juntuan.Lu
+ *Version: 1.0
+ *Date:  2021/07/22
+ *Email: 931852884@qq.com
+ *Description:
+ *Others:
+ *Function List:
+ *History:
+ **********************************************************************************/
+
+#pragma once
+
+#include <QByteArray>
+#include <QImage>
+#include <QTime>
+
+#define SKIN_DEFAULT QStringLiteral("unknown")
+#define IMAGEDATA_DEFAULT ImageData("", false)
+#define RADIO_DEFAULT Radio(0, QStringLiteral("0"))
+#define MUSIC_DEFAULT Music(0, QStringLiteral("UNKNOWN"), QStringLiteral("UNKNOWN"), QStringLiteral("UNKNOWN"), 0, 0, IMAGEDATA_DEFAULT)
+#define PHONE_DEFAULT Phone(0, QStringLiteral("UNKNOWN"), QStringLiteral("UNKNOWN"), 0, IMAGEDATA_DEFAULT)
+#define NAVI_DEFAULT Navi(false)
+#define SPLASH_DEFAULT Splash(-1, false)
+#define DMS_DEFAULT Dms(0, 0)
+#define V2X_DEFAULT V2x(QByteArray())

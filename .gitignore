@@ -1,0 +1,10 @@
+*.user
+*.vscode
+*.kate-swp
+*.swp
+*.kdev4
+*.autosave
+/build*
+/BUILD*
+/3rd*
+/3RD*

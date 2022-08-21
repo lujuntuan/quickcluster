@@ -1,0 +1,20 @@
+{
+  "exePath":"",
+  "workDir":"",
+  "args":[
+  ],
+  "envList":[
+  ],
+  "preCommands":[
+  ],
+  "destroy":true,
+  "watch":false,
+  "order": false,
+  "lock":false,
+  "daemon":false,
+  "logVisible":false,
+  "logSave":false,
+  "sleepTime":0,
+  "heartbeatTimes":[
+  ]
+}
